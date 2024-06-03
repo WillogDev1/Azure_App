@@ -1,18 +1,19 @@
 :root {
   --bg-color: #ffff;
-  --font-color: #8f6277;
-  --box-shadow-color: #fdcae1;
-  --profile-bg-color: #eeeeee;
+  --font-color: #000000;
+  --font-card-color: #ffff;
+  --box-shadow-color: #000000;
+  --profile-bg-color: #ffff;
   --slider-bg-image: url('/images/earth.gif'); /* exemplo de imagem diferente para tema claro */
   --slider-before-color: #ff0;
-  --checked-slider-bg-color: #dddddd;
-  --checked-slider-before-color: #000000;
+  --checked-slider-bg-color: #ffff;
+  --checked-slider-before-color: #ffff;
 }
 
 [data-theme="dark"] {
   --bg-color: #282726;
   --font-color: #ffffff;
-  --box-shadow-color: #33d463;
+  --box-shadow-color: #ffffff;
   --profile-bg-color: black;
   --slider-bg-image: url('/images/earth.gif');
   --slider-before-color: #ff0;
@@ -21,9 +22,13 @@
 }
 
 body {
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: monospace;
   background: var(--bg-color);
   color: var(--font-color);
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .profileImg {
@@ -33,18 +38,20 @@ body {
   box-shadow: 5px 5px var(--box-shadow-color);
   cursor: pointer;
   background: var(--profile-bg-color);
-  overflow: hidden;
 }
 
 .navbar .nav-item {
   color: var(--font-color);
+  align-items: baseline;
+  font-weight: bold;
 }
 
 .switch {
   position: relative;
   display: inline-block;
-  width: 35px;
-  height: 34px;
+  width: 100px;
+  height: 50px;
+
 }
 
 .switch input {
@@ -69,9 +76,10 @@ body {
 .slider:before {
   position: absolute;
   content: "";
-  height: 8px;
-  width: 8px;
-  left: -5px;
+  height: 18px;
+  width: 18px;
+  left: 6px;
+  top: 26px;
   bottom: 0;
   background-color: var(--slider-before-color);
   transition: .4s;
@@ -96,52 +104,69 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-.projectsCollum {
-  height: 400px; /* Altura da coluna */
-  overflow: hidden; /* Garante que a imagem de fundo não se estenda além dos limites da coluna */
-}
-
 .image-container {
   position: relative;
-  background-position: center; /* Centraliza a imagem */
-  background-size: cover; /* Faz com que a imagem cubra todo o contêiner */
-  height: 800px; /* Altura fixa */
-  transition: transform 0.3s ease; /* Adiciona uma transição suave */
+  background-position: center;
+  background-size: cover;
+  height: 100vh; /* Altura total da tela */
+  transition: transform 0.3s ease, z-index 0.3s ease;
   cursor: pointer;
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Garante que a borda não corte a imagem */
+  border-style:solid;
+  border-width: 0.1px;
 }
 
 .image-container:hover {
-  transform: scale(1.2); /* Aumenta a imagem em 20% no hover */
+  transform: scale(1.2);
+  z-index: 10; /* Garante que a imagem em foco fique acima das outras */
 }
 
-.overlay {
-  position: relative;
+.image-container::before {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Cor da sobreposição com transparência */
-  opacity: 0; /* Inicialmente transparente */
-  transition: opacity 0.3s ease; /* Adiciona uma transição suave */
-  
+  background-size: 200% 100%;
+  z-index: 2; /* Garante que a faixa animada apareça sobre a imagem */
 }
 
-.col:hover .overlay {
-  opacity: 1; /* Torna a sobreposição visível no hover */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Transparência */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1; /* Garante que a sobreposição apareça sobre o conteúdo */
+}
+
+.image-container:hover .overlay {
+  opacity: 1;
 }
 
 .text {
   position: absolute;
-  top: 50%; /* Centraliza verticalmente */
-  left: 50%; /* Centraliza horizontalmente */
-  transform: translate(-50%, -50%); /* Move o texto para o centro */
-  color: white; /* Cor do texto */
-  font-size: 24px; /* Tamanho da fonte */
-  font-weight: bold; /* Peso da fonte */
-  text-align: center; /* Alinhamento do texto */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--font-card-color);
+  font-size: 44px;
+  font-weight: bold;
+  text-align: center;
+  z-index: 3; /* Garante que o texto apareça sobre a sobreposição e a faixa animada */
 }
 
-hr{
+.full-screen {
+  height: 100vh;
+}
+
+hr {
   background-color: var(--font-color);
 }
